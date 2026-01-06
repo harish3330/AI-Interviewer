@@ -1,0 +1,64 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+<style>
+  .dashboard {
+    max-width: 900px;
+    margin: auto;
+  }
+
+  .card {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+
+  .btn {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="dashboard">
+  <h2>👨‍💻 Candidate Dashboard</h2>
+
+  <h3>📢 Available Interviews</h3>
+
+  {% for interview in interviews %}
+    <div class="card">
+      <h4>{{ interview.title }}</h4>
+      <p>{{ interview.skills }}</p>
+
+      <a href="{% url 'start_interview' interview.id %}" class="btn">
+        Start Interview
+      </a>
+    </div>
+  {% empty %}
+    <p>No interviews available.</p>
+  {% endfor %}
+
+  <h3>📄 My Applications</h3>
+
+{% for s in sessions %}
+<div class="card">
+    <b>{{ s.interview.title }}</b><br>
+    Status:
+    <span class="status {{ s.status|lower }}">
+        {{ s.status }}
+    </span>
+</div>
+{% empty %}
+<p>No interviews attended yet.</p>
+{% endfor %}
+
+</div>
+
+{% endblock %}

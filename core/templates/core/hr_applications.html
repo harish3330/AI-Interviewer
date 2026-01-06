@@ -1,0 +1,21 @@
+<h2>📊 Candidate Applications</h2>
+
+{% for s in sessions %}
+<div class="card">
+    <b>Candidate:</b> {{ s.candidate.username }} <br>
+    <b>Interview:</b> {{ s.interview.title }} <br>
+    <b>Score:</b> {{ s.score }} <br>
+    <b>Status:</b> {{ s.status }}
+
+    <br><br>
+
+   <a href="{% url 'update_application_status' s.id 'ACCEPTED' %}" class="btn accept">
+    Accept
+</a>
+
+<a href="{% url 'update_application_status' s.id 'REJECTED' %}" class="btn reject">
+    Reject
+</a>
+
+</div>
+{% endfor %}

@@ -1,0 +1,126 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+  }
+
+  .interview-card {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px 35px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .interview-card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group.full {
+    grid-column: span 2;
+  }
+
+  label {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  input, textarea {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: all 0.3s;
+  }
+
+  input:focus, textarea:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .submit-btn {
+    margin-top: 25px;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+</style>
+
+<div class="interview-card">
+  <h2>📝 Create New Interview</h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Interview Title</label>
+        <input type="text" name="title" placeholder="Eg: Python Developer" required>
+      </div>
+
+      <div class="form-group">
+        <label>Skills</label>
+        <input type="text" name="skills" placeholder="Python, Django, REST API" required>
+      </div>
+
+      <div class="form-group full">
+        <label>Description</label>
+        <textarea name="description" placeholder="Brief interview description" required></textarea>
+      </div>
+
+      <div class="form-group full">
+        <label>Roles & Responsibilities</label>
+        <textarea name="roles" placeholder="Responsibilities of the role" required></textarea>
+      </div>
+
+      <div class="form-group full">
+        <label>Evaluation Criteria</label>
+        <textarea name="criteria" placeholder="How candidate will be evaluated" required></textarea>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">
+      🚀 Create Interview
+    </button>
+  </form>
+</div>
+{% endblock %}

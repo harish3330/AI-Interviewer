@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<h3 class="text-white mb-4">📋 My Interviews</h3>
+
+<div class="row">
+  {% for interview in interviews %}
+  <div class="col-md-6 mb-4">
+    <div class="card p-4 interview-card">
+      <h5>{{ interview.title }}</h5>
+      <p class="small text-muted">{{ interview.skills }}</p>
+
+      <a href="/hr/applications/?interview={{ interview.id }}"
+         class="btn btn-outline-primary btn-sm">
+        View Applications
+      </a>
+    </div>
+  </div>
+  {% empty %}
+  <p class="text-white">No interviews created yet.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

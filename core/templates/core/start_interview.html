@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ interview.title }} Interview</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a7cff, #7b5dbb);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: #fff;
+            width: 600px;
+            max-width: 90%;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .skills {
+            text-align: center;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            font-size: 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            font-size: 14px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .mic {
+            background: #ff5f5f;
+            color: #fff;
+        }
+
+        .next {
+            background: #6a7cff;
+            color: #fff;
+        }
+
+        .progress {
+            text-align: right;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <h2>🎤 {{ interview.title }}</h2>
+    <div class="skills">Skills: {{ interview.skills }}</div>
+
+    <div class="progress" id="progressText"></div>
+
+    <div class="question" id="questionBox"></div>
+
+    <textarea id="answerBox" placeholder="Speak or type your answer here..."></textarea>
+
+    <div class="actions">
+        <button class="btn mic" onclick="startVoice()">🎙 Speak</button>
+        <button class="btn next" onclick="nextQuestion()">Next →</button>
+    </div>
+
+    <form method="post" id="finalForm">
+        {% csrf_token %}
+        <input type="hidden" name="answers" id="answersInput">
+    </form>
+
+</div>
+
+
+{{ questions|json_script:"questions-data" }}
+
+<script>
+    const questions = JSON.parse(
+        document.getElementById("questions-data").textContent
+    );
+
+    let index = 0;
+    let answers = [];
+
+    const questionBox = document.getElementById("questionBox");
+    const answerBox = document.getElementById("answerBox");
+    const progressText = document.getElementById("progressText");
+
+    function loadQuestion() {
+        questionBox.innerHTML = `Q${index + 1}. ${questions[index]}`;
+        progressText.innerHTML = `Question ${index + 1} of ${questions.length}`;
+        answerBox.value = "";
+    }
+
+    loadQuestion();
+
+    function nextQuestion() {
+        answers.push(answerBox.value.trim());
+
+        index++;
+        if (index < questions.length) {
+            loadQuestion();
+        } else {
+            document.getElementById("answersInput").value =
+                JSON.stringify(answers);
+            document.getElementById("finalForm").submit();
+        }
+    }
+
+    function startVoice() {
+        if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+            alert("Voice recognition not supported in this browser");
+            return;
+        }
+
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = "en-US";
+
+        recognition.onresult = function (event) {
+            answerBox.value += " " + event.results[0][0].transcript;
+        };
+
+        recognition.start();
+    }
+</script>
+
+</body>
+</html>
