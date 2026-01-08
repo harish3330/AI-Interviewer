@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
+import os
 
 from pathlib import Path
 
@@ -133,6 +134,7 @@ LOGOUT_REDIRECT_URL = '/'
 import os
 
 OPENAI_API_KEY = "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"
+
 
 
 
