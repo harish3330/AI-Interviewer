@@ -1,0 +1,23 @@
+# Core Django
+Django==5.0.1
+
+# Database (default SQLite – no extra package needed)
+# If you later use PostgreSQL, add psycopg2-binary
+
+# Authentication & Forms
+django-crispy-forms==2.1
+
+# Environment variable handling
+python-dotenv==1.0.1
+
+# AI Integration (OPTIONAL – only if using OpenAI)
+openai==1.12.0
+
+# HTTP requests (used internally / future APIs)
+requests==2.31.0
+
+# JSON handling & utilities
+pytz==2024.1
+
+# For production readiness (optional but good)
+gunicorn==21.2.0
