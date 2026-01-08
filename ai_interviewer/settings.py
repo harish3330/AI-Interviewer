@@ -23,9 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1kzm-mbg1@35ltu%#9cd(1_)t=ecm&!96wgt9qoad1r7civ^a0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = [
+    "ai-interviewer-owtr.onrender.com",
+    ".onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
+
 
 
 # Application definition
@@ -126,5 +133,6 @@ LOGOUT_REDIRECT_URL = '/'
 import os
 
 OPENAI_API_KEY = "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"
+
 
 
